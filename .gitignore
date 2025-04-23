@@ -1,0 +1,37 @@
+# Go binaries
+/bin/
+/obj/
+
+# Dependency directories
+/vendor/
+
+# Go workspace files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go test output
+*.test
+*.out
+
+# Coverage files
+*.cov
+*.coverage
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# MacOS specific
+.DS_Store
+
+# Log files
+*.log
+
+# Environment files
+.env
+
