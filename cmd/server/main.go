@@ -1,9 +1,8 @@
 package main
 
-import (
-
-)
+import "github.com/EfosaE/naijacost-api/internal/etl"
 
 func main() {
-	LoadFoodPrices()
+	etl.LoadFoodPrices()
 }
+
