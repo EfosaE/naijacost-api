@@ -2,10 +2,16 @@ module github.com/EfosaE/naijacost-api
 
 go 1.24.2
 
-require github.com/xuri/excelize/v2 v2.9.0
+require (
+	github.com/aquasecurity/table v1.10.0
+	github.com/go-chi/chi/v5 v5.2.1
+	github.com/xuri/excelize/v2 v2.9.0
+	github.com/go-chi/render v1.0.3
+)
+
+require github.com/ajg/form v1.5.1 // indirect
 
 require (
-	github.com/aquasecurity/table v1.10.0 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
