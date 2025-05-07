@@ -1,0 +1,71 @@
+{
+  "geopolitical_zones": [
+    {
+      "name": "North Central",
+      "states": [
+        "Benue",
+        "Federal Capital Territory (FCT)",
+        "Kogi",
+        "Kwara",
+        "Nasarawa",
+        "Niger",
+        "Plateau"
+      ]
+    },
+    {
+      "name": "North East",
+      "states": [
+        "Adamawa",
+        "Bauchi",
+        "Borno",
+        "Gombe",
+        "Taraba",
+        "Yobe"
+      ]
+    },
+    {
+      "name": "North West",
+      "states": [
+        "Jigawa",
+        "Kaduna",
+        "Kano",
+        "Katsina",
+        "Kebbi",
+        "Sokoto",
+        "Zamfara"
+      ]
+    },
+    {
+      "name": "South East",
+      "states": [
+        "Abia",
+        "Anambra",
+        "Ebonyi",
+        "Enugu",
+        "Imo"
+      ]
+    },
+    {
+      "name": "South South",
+      "states": [
+        "Akwa Ibom",
+        "Bayelsa",
+        "Cross River",
+        "Delta",
+        "Edo",
+        "Rivers"
+      ]
+    },
+    {
+      "name": "South West",
+      "states": [
+        "Ekiti",
+        "Lagos",
+        "Ogun",
+        "Ondo",
+        "Osun",
+        "Oyo"
+      ]
+    }
+  ]
+}

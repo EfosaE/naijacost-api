@@ -24,8 +24,8 @@ func LoadFoodPrices() {
 func loadAvgPriceState() {
 
 	sheet := util.Sheet{
-		Filename:  "data/raw/selected_food_oct_2024.xlsx",
-		SheetName: "selected food oct 2024",
+		Filename:  "data/raw/selected_food_Dec_2024.xlsx",
+		SheetName: "selected food Dec 2024",
 	}
 	rows, err := sheet.ReadSheet()
 	if err != nil {
@@ -42,7 +42,7 @@ func loadAvgPriceState() {
 func loadAvgPriceRegion() {
 
 	sheet := util.Sheet{
-		Filename:  "data/raw/selected_food_oct_2024.xlsx",
+		Filename:  "data/raw/selected_food_Dec_2024.xlsx",
 		SheetName: "zone all item",
 	}
 	rows, err := sheet.ReadSheet()

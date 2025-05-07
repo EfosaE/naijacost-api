@@ -5,9 +5,11 @@ import (
 	"net/http"
 	"os"
 
+	// "github.com/EfosaE/naijacost-api/internal/etl"
+	"github.com/EfosaE/naijacost-api/internal/apierror"
+	"github.com/EfosaE/naijacost-api/internal/handlers"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/go-chi/render"
 )
 
 type User struct {
@@ -24,21 +26,27 @@ func main() {
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
+	// etl.LoadFoodPrices()
 
-	r.Get("/user", GetUser)
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World!"))
 	})
+
+	r.NotFound(apierror.NotFoundHandler())
+	r.MethodNotAllowed(apierror.MethodNotAllowedHandler())
+
+	// Creating a Sub Router
+	apiRouter := chi.NewRouter()
+	apiRouter.Get("/states", handlers.GetStates)
+
+	// Mounting the new Sub Router on the main router
+	r.Mount("/api/v1", apiRouter)
 
 	log.Printf("Starting server on port %s\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }
 
-func GetUser(w http.ResponseWriter, r *http.Request) {
-	user := User{
-		Firstname: "John",
-		Lastname:  "Doe",
-		Age:       25,
-	}
-	render.JSON(w, r, user)
-}
+// func GetStates(w http.ResponseWriter, r *http.Request) {
+// 	states := []string{"Lagos", "Abuja", "Port Harcourt"}
+// 	render.JSON(w, r, states)
+// }
