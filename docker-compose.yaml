@@ -10,3 +10,14 @@ services:
     container_name: naijacost-servercon
     environment:
       - PORT=8080
+  database:
+    image: postgres:latest
+    container_name: naijacost-dbcon
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: efosa
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: naijacost_db
+    # volumes:
+    #   - db_data:/var/lib/postgresql/data

@@ -2,7 +2,7 @@
 // versions:
 //   sqlc v1.29.0
 
-package db
+package sqlc
 
 type User struct {
 	ID    int32

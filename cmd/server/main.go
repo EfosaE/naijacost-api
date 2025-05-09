@@ -1,13 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"os"
 
-	"github.com/EfosaE/naijacost-api/internal/etl"
 	"github.com/EfosaE/naijacost-api/internal/apierror"
+	"github.com/EfosaE/naijacost-api/internal/config"
+	"github.com/EfosaE/naijacost-api/internal/db"
+
+	// "github.com/EfosaE/naijacost-api/internal/etl"
 	"github.com/EfosaE/naijacost-api/internal/routes"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -20,8 +21,15 @@ type User struct {
 }
 
 func main() {
-	port := os.Getenv("PORT")
-	fmt.Println("Port:", port)
+
+	config.Load()
+	err := db.InitDB()
+	if err != nil {
+		log.Fatalf("Failed to initialize database: %v", err)
+	}
+	defer db.CloseDB()
+
+	port := config.App.Port
 	if port == "" {
 		port = "8080"
 	}
@@ -29,7 +37,7 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-	etl.LoadCoHdData()
+
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Welcome To My Cost Analyser!"))

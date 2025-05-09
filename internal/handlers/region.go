@@ -45,6 +45,8 @@ func GetStates(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	
+
 	// // Extract all states from all zones
 	// var allStates []string
 	// for _, zone := range nigeriaData.GeopoliticalZones {
