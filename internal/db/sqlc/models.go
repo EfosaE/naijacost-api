@@ -4,8 +4,15 @@
 
 package sqlc
 
-type User struct {
-	ID    int32
-	Name  string
-	Email string
+import (
+	"github.com/jackc/pgx/v5/pgtype"
+)
+
+type StatesCost struct {
+	State          string
+	AirCost        pgtype.Float8
+	BusCostInter   pgtype.Float8
+	BusCostIntra   pgtype.Float8
+	MotorcycleCost pgtype.Float8
+	WaterCost      pgtype.Float8
 }

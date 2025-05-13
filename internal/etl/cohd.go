@@ -27,11 +27,9 @@ func LoadCoHdData() ([]byte, error) {
 		return nil, err
 	}
 
-	s := util.Sheet{
-		Rows: rows,
-	}
+	sheet.Rows = rows
 
-	s.Print()
+	sheet.Print()
 	var coHdData []CoHd
 	// Skip header row
 	for i, _ := range rows {
@@ -64,7 +62,6 @@ func LoadCoHdData() ([]byte, error) {
 	if err != nil {
 		log.Fatalf("Failed to convert to JSON: %v", err)
 	}
-
 
 	log.Printf("Processed %d entries for CoHd data", len(coHdData))
 

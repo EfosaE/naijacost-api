@@ -24,6 +24,7 @@ func main() {
 
 	config.Load()
 	err := db.InitDB()
+	
 	if err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}

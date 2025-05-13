@@ -1,0 +1,39 @@
+# This is a Docker Compose file for setting up a PostgreSQL database and pgAdmin.
+# It includes two services: db (PostgreSQL) and pgadmin (pgAdmin).
+
+services:
+  db:
+    image: postgres
+    container_name: naija-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432" # 👈 Expose Postgres to host
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - pg-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: naija-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "8081:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+    networks:
+      - pg-network
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+
+networks:
+  pg-network:

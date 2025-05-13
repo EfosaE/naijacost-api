@@ -6,7 +6,7 @@ import (
 )
 
 func StatesRouter(r chi.Router) {
-	r.Get("/", handlers.GetStates)
+	r.Get("/", handlers.SetStatesCostData)
 }
 
 func CoHdRouter(r chi.Router) {

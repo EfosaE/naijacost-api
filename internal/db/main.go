@@ -27,6 +27,8 @@ func InitDB() error {
 	// Verify the connection
 	if err = Pool.Ping(ctx); err != nil {
 		return fmt.Errorf("failed to ping database: %w", err)
+	}else {
+		fmt.Printf("Connection to database successful ✅\n")
 	}
 
 	// Initialize queries with the connection pool

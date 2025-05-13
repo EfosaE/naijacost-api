@@ -1,10 +1,15 @@
 version: "2"
+
 sql:
   - engine: "postgresql"
-    schema: "internal/db/schema"
+    schema: "internal/db/migrations"
     queries: "internal/db/query"
     gen:
       go:
         package: "sqlc"
         out: "internal/db/sqlc"
         sql_package: "pgx/v5"
+        # overrides:
+        #   - db_type: "numeric"
+        #     go_type: "float64"
+        #   # db_type_suffix: true  # ← optional but helps with NUMERIC(10,2)
