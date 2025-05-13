@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/EfosaE/naijacost-api/internal/apierror"
+	"github.com/EfosaE/naijacost-api/internal/api"
 	"github.com/EfosaE/naijacost-api/internal/etl"
 	"github.com/go-chi/render"
 )
@@ -22,7 +22,7 @@ func GetCoHdList(w http.ResponseWriter, r *http.Request) {
 	jsonData, err := etl.LoadCoHdData()
 	if err != nil {
 		log.Println(err)
-		render.Render(w, r, apierror.InternalServerError(err, "Failed to read states data"))
+		render.Render(w, r, api.InternalServerError(err, "Failed to read states data"))
 		return
 	}
 
@@ -30,7 +30,7 @@ func GetCoHdList(w http.ResponseWriter, r *http.Request) {
 	var coHdData []CoHd
 	if err := json.Unmarshal(jsonData, &coHdData); err != nil {
 		log.Println(err)
-		render.Render(w, r, apierror.InternalServerError(err, "Failed to parse states data"))
+		render.Render(w, r, api.InternalServerError(err, "Failed to parse states data"))
 		return
 	}
 

@@ -9,10 +9,10 @@ import (
 )
 
 type StatesCost struct {
-	State          string
-	AirCost        pgtype.Float8
-	BusCostInter   pgtype.Float8
-	BusCostIntra   pgtype.Float8
-	MotorcycleCost pgtype.Float8
-	WaterCost      pgtype.Float8
+	State          string        `json:"state"`
+	AirCost        pgtype.Float8 `json:"air_cost"`
+	BusCostInter   pgtype.Float8 `json:"bus_cost_inter"`
+	BusCostIntra   pgtype.Float8 `json:"bus_cost_intra"`
+	MotorcycleCost pgtype.Float8 `json:"motorcycle_cost"`
+	WaterCost      pgtype.Float8 `json:"water_cost"`
 }

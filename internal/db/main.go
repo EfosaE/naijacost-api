@@ -14,32 +14,31 @@ var (
 	Queries *sqlc.Queries // my sqlc package supports pgx instead of database/sql
 )
 
-func InitDB() error {
-	ctx := context.Background()
-
-	// Create a connection pool instead of a single connection
-	var err error
-	Pool, err = pgxpool.New(ctx, config.App.Dsn)
-	if err != nil {
-		return fmt.Errorf("failed to create connection pool: %w", err)
-	}
-
-	// Verify the connection
-	if err = Pool.Ping(ctx); err != nil {
-		return fmt.Errorf("failed to ping database: %w", err)
-	}else {
-		fmt.Printf("Connection to database successful ✅\n")
-	}
-
-	// Initialize queries with the connection pool
-	Queries = sqlc.New(Pool)
-
-	return nil
+type DB struct {
+    Pool    *pgxpool.Pool
+    Queries *sqlc.Queries
 }
 
-// You would also need a cleanup function
-func CloseDB() {
-	if Pool != nil {
-		Pool.Close()
-	}
+func InitDB(ctx context.Context) (*DB, error) {
+    // Create a connection pool
+    pool, err := pgxpool.New(ctx, config.App.Dsn)
+    if err != nil {
+        return nil, fmt.Errorf("failed to create connection pool: %w", err)
+    }
+
+    // Verify the connection
+    if err = pool.Ping(ctx); err != nil {
+        return nil, fmt.Errorf("failed to ping database: %w", err)
+    }
+    
+    fmt.Printf("Connection to database successful ✅\n")
+
+    // Initialize queries with the connection pool
+    queries := sqlc.New(pool)
+
+    return &DB{
+        Pool:    pool,
+        Queries: queries,
+    }, nil
 }
+

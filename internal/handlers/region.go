@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/EfosaE/naijacost-api/internal/apierror"
+	"github.com/EfosaE/naijacost-api/internal/api"
 	"github.com/go-chi/render"
 )
 
@@ -27,7 +27,7 @@ func GetStates(w http.ResponseWriter, r *http.Request) {
 	fileData, err := os.ReadFile("data/raw/nigeria_zones_states.json")
 	if err != nil {
 		fmt.Println(err)
-		render.Render(w, r, apierror.InternalServerError(err, "Failed to read states data"))
+		render.Render(w, r, api.InternalServerError(err, "Failed to read states data"))
 		return
 	}
 
@@ -41,7 +41,7 @@ func GetStates(w http.ResponseWriter, r *http.Request) {
 		// 	"error":   "Failed to parse states data",
 		// 	"message": err.Error(),
 		// })
-		render.Render(w, r, apierror.InternalServerError(err, "Failed to parse states data"))
+		render.Render(w, r, api.InternalServerError(err, "Failed to parse states data"))
 		return
 	}
 

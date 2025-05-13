@@ -1,10 +1,11 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 
-	"github.com/EfosaE/naijacost-api/internal/apierror"
+	"github.com/EfosaE/naijacost-api/internal/api"
 	"github.com/EfosaE/naijacost-api/internal/config"
 	"github.com/EfosaE/naijacost-api/internal/db"
 
@@ -22,13 +23,14 @@ type User struct {
 
 func main() {
 
+	ctx := context.Background()
 	config.Load()
-	err := db.InitDB()
-	
+	db, err := db.InitDB(ctx)
+
 	if err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
-	defer db.CloseDB()
+	defer db.Pool.Close()
 
 	port := config.App.Port
 	if port == "" {
@@ -38,18 +40,18 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
-
-
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Welcome To My Cost Analyser!"))
 	})
 
-	r.NotFound(apierror.NotFoundHandler())
-	r.MethodNotAllowed(apierror.MethodNotAllowedHandler())
+	r.NotFound(api.NotFoundHandler())
+	r.MethodNotAllowed(api.MethodNotAllowedHandler())
 
 	// Creating a Sub Router
 	api := chi.NewRouter()
-	api.Route("/states", routes.StatesRouter)
+	api.Route("/states", func(r chi.Router) {
+		routes.StatesRouter(r, db)
+	})
 	api.Route("/cohd", routes.CoHdRouter)
 
 	// apparently this is also a valid way to create a sub router

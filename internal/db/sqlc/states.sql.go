@@ -10,12 +10,12 @@ import (
 )
 
 type BulkInsertStateCostsParams struct {
-	State          string
-	AirCost        float64
-	BusCostInter   float64
-	BusCostIntra   float64
-	MotorcycleCost float64
-	WaterCost      float64
+	State          string        `json:"state"`
+	AirCost       float64 `json:"air_cost"`
+	BusCostInter  float64 `json:"bus_cost_inter"`
+	BusCostIntra  float64 `json:"bus_cost_intra"`
+	MotorcycleCost float64 `json:"motorcycle_cost"`
+	WaterCost     float64 `json:"water_cost"`
 }
 
 const getStateCost = `-- name: GetStateCost :one

@@ -7,11 +7,11 @@ migrate-create:
 
 # Run all pending migrations
 migrate-up:
-	migrate -database "postgres://postgres:secret@localhost:5432/postgres?sslmode=disable" -path ./internal/db/migrations up
+	source .env && migrate -database "$${PROD_DB_URL}" -path ./migrations up
 
 # Rollback the most recent migration
 migrate-down:
-	migrate -database "postgres://postgres:secret@localhost:5432/postgres?sslmode=disable" -path ./internal/db/migrations down 1
+	source .env && migrate -database "$${PROD_DB_URL}" -path ./migrations down 1
 
 # Generate sqlc code
 sqlc:

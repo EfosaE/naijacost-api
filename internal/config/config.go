@@ -23,7 +23,7 @@ func Load() {
     }
 
     App = Config{
-        Dsn:     mustGetEnv("DSN"),
+        Dsn:     mustGetEnv("PROD_DSN"),
         Port:      getEnv("PORT", "8080"),
         Env:       getEnv("APP_ENV", "development"),
         // JwtSecret: mustGetEnv("JWT_SECRET"),
