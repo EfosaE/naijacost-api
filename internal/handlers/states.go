@@ -15,19 +15,18 @@ func SetStatesCostDataHandler(db *db.DB) http.HandlerFunc {
 		ctx := r.Context()
 		// Create the service with the DB
 		statesService := etl.NewStatesService(db)
-		result, err := statesService.SetStatesCostDataIntoDB(ctx)
+		result, err := statesService.SetCoHdDataIntoDB(ctx)
 
 		if err != nil || result == 0 {
-			render.Render(w, r, api.InternalServerError(err, "Failed to set states cost data"))
+			render.Render(w, r, api.InternalServerError(err, "Failed to set states food cost data"))
 
 			return
 		}
 
-		api.SendSuccess(w, r, api.OK(result, "States cost data set successfully"))
+		api.SendSuccess(w, r, api.OK(result, "States food cost data set successfully"))
 	}
 
 }
-
 
 // GetStatesCostDataHandler handles getting state cost data
 func GetStatesCostDataHandler(db *db.DB) http.HandlerFunc {

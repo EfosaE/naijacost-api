@@ -8,7 +8,12 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-type StatesCost struct {
+type StatesFoodCost struct {
+	State string        `json:"state"`
+	Cost  pgtype.Float8 `json:"cost"`
+}
+
+type StatesTransportCost struct {
 	State          string        `json:"state"`
 	AirCost        pgtype.Float8 `json:"air_cost"`
 	BusCostInter   pgtype.Float8 `json:"bus_cost_inter"`

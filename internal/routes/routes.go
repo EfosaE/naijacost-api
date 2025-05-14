@@ -11,6 +11,6 @@ func StatesRouter(r chi.Router, db *db.DB) {
 	r.Get("/list", handlers.GetStatesCostDataHandler(db))
 }
 
-func CoHdRouter(r chi.Router) {
-	r.Get("/list", handlers.GetCoHdList)
-}
+// func CoHdRouter(r chi.Router) {
+// 	r.Get("/list", handlers.GetCoHdList)
+// }

@@ -52,7 +52,6 @@ func main() {
 	api.Route("/states", func(r chi.Router) {
 		routes.StatesRouter(r, db)
 	})
-	api.Route("/cohd", routes.CoHdRouter)
 
 	// apparently this is also a valid way to create a sub router
 	// api/v1/states

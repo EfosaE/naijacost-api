@@ -1,5 +1,5 @@
--- name: BulkInsertStateCosts :copyfrom
-INSERT INTO states_cost (
+-- name: BulkInsertStateTransportCosts :copyfrom
+INSERT INTO states_transport_cost (
     State, 
     Air_Cost, 
     Bus_Cost_Inter, 
@@ -11,11 +11,11 @@ INSERT INTO states_cost (
 );
 
 -- name: GetStateCost :one
-SELECT * FROM states_cost
+SELECT * FROM states_transport_cost
 WHERE State = $1;
 
 -- name: ListStatesCosts :many
-SELECT * FROM states_cost
+SELECT * FROM states_transport_cost
 ORDER BY State;
 
 

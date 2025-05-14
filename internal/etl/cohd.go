@@ -1,21 +1,18 @@
 package etl
 
 import (
-	"encoding/json"
+	"context"
 	"fmt"
-	"github.com/EfosaE/naijacost-api/internal/util"
 	"log"
 	"strconv"
 	"strings"
+
+	"github.com/EfosaE/naijacost-api/internal/db/sqlc"
+	"github.com/EfosaE/naijacost-api/internal/util"
 )
 
-type CoHd struct {
-	State string
-	Cost  float64
-}
-
 // cohd = cost of a healthy diet
-func LoadCoHdData() ([]byte, error) {
+func readCoHdData() ([]sqlc.BulkInsertStateFoodCostsParams, error) {
 
 	sheet := util.Sheet{
 		Filename:  "data/raw/CoHD_Nov_2024_Table.xlsx",
@@ -30,9 +27,9 @@ func LoadCoHdData() ([]byte, error) {
 	sheet.Rows = rows
 
 	sheet.Print()
-	var coHdData []CoHd
+	var coHdData []sqlc.BulkInsertStateFoodCostsParams
 	// Skip header row
-	for i, _ := range rows {
+	for i := range rows {
 		row := rows[i]
 		if len(row) < 2 {
 			continue // Skip rows with insufficient data
@@ -51,20 +48,29 @@ func LoadCoHdData() ([]byte, error) {
 			continue
 		}
 
-		coHdData = append(coHdData, CoHd{
+		coHdData = append(coHdData, sqlc.BulkInsertStateFoodCostsParams{
 			State: state,
-			Cost:  cost,
+			Cost:  util.ToFloat8(cost),
 		})
 	}
 
-	// Convert to JSON
-	jsonData, err := json.Marshal(coHdData)
+	return coHdData, nil
+}
+
+func (s *StatesService) SetCoHdDataIntoDB(ctx context.Context) (int64, error) {
+	// Read the states cost data from the file
+	coHdData, err := readCoHdData()
 	if err != nil {
-		log.Fatalf("Failed to convert to JSON: %v", err)
+		fmt.Println("Error reading states cost data:", err)
+		return 0, err
 	}
 
-	log.Printf("Processed %d entries for CoHd data", len(coHdData))
+	result, err := s.db.Queries.BulkInsertStateFoodCosts(ctx, coHdData)
+	if err != nil {
+		fmt.Println("Error inserting states food costs data:", err)
+		return 0, err
+	}
 
-	return jsonData, nil
-
+	fmt.Println("Successfully inserted states food costs data:", result)
+	return result, nil
 }

@@ -37,9 +37,7 @@ func ReadStatesCostDataFromFile() ([][]string, error) {
 	return rows, nil
 }
 
-
-
-func (s *StatesService) SetStatesCostDataIntoDB(ctx context.Context) (int64, error) {
+func (s *StatesService) SetStatesTransportCostDataIntoDB(ctx context.Context) (int64, error) {
 	// Read the states cost data from the file
 	rows, err := ReadStatesCostDataFromFile()
 	if err != nil {
@@ -48,7 +46,7 @@ func (s *StatesService) SetStatesCostDataIntoDB(ctx context.Context) (int64, err
 	}
 
 	// Create a slice to hold all the parameter structs
-	params := make([]sqlc.BulkInsertStateCostsParams, 0, len(rows))
+	params := make([]sqlc.BulkInsertStateTransportCostsParams, 0, len(rows))
 
 	// Skip the header row if it exists
 	startIdx := 0
@@ -68,54 +66,52 @@ func (s *StatesService) SetStatesCostDataIntoDB(ctx context.Context) (int64, err
 		stateName := row[0]
 
 		// Convert string values to float64
-		airCost, err := strconv.ParseFloat(row[1], 8)
+		airCost, err := strconv.ParseFloat(row[1], 64)
 		if err != nil {
 			fmt.Printf("Error parsing Air_Cost for %s: %v\n", stateName, err)
 			continue
 		}
 
-		busCostInter, err := strconv.ParseFloat(row[2], 8)
+		busCostInter, err := strconv.ParseFloat(row[2], 64)
 		if err != nil {
 			fmt.Printf("Error parsing Bus_Cost_Inter for %s: %v\n", stateName, err)
 			continue
 		}
 
-		busCostIntra, err := strconv.ParseFloat(row[3], 8)
+		busCostIntra, err := strconv.ParseFloat(row[3], 64)
 		if err != nil {
 			fmt.Printf("Error parsing Bus_Cost_Intra for %s: %v\n", stateName, err)
 			continue
 		}
 
-		motorcycleCost, err := strconv.ParseFloat(row[4], 8)
+		motorcycleCost, err := strconv.ParseFloat(row[4], 64)
 		if err != nil {
 			fmt.Printf("Error parsing Motorcycle_Cost for %s: %v\n", stateName, err)
 			continue
 		}
 
-		waterCost, err := strconv.ParseFloat(row[5], 8)
+		waterCost, err := strconv.ParseFloat(row[5], 64)
 		if err != nil {
 			fmt.Printf("Error parsing Water_Cost for %s: %v\n", stateName, err)
 			continue
 		}
 
 		// Create parameter struct for this row
-		param := sqlc.BulkInsertStateCostsParams{
+		param := sqlc.BulkInsertStateTransportCostsParams{
 			State:          stateName,
-			AirCost:        airCost,
-			BusCostInter:   busCostInter,
-			BusCostIntra:   busCostIntra,
-			MotorcycleCost: motorcycleCost,
-			WaterCost:      waterCost,
+			AirCost:        util.ToFloat8(airCost),
+			BusCostInter:   util.ToFloat8(busCostInter),
+			BusCostIntra:   util.ToFloat8(busCostIntra),
+			MotorcycleCost: util.ToFloat8(motorcycleCost),
+			WaterCost:      util.ToFloat8(waterCost),
 		}
 
 		// Add to our slice of parameters
 		params = append(params, param)
 	}
 
-
-
 	// fmt.Println(params)
-	result, err := s.db.Queries.BulkInsertStateCosts(ctx, params)
+	result, err := s.db.Queries.BulkInsertStateTransportCosts(ctx, params)
 
 	if err != nil {
 		fmt.Println("Error inserting states cost data:", err)
@@ -126,8 +122,7 @@ func (s *StatesService) SetStatesCostDataIntoDB(ctx context.Context) (int64, err
 	return result, nil
 }
 
-
-func (s *StatesService) GetStatesCostData(ctx context.Context) ([]sqlc.StatesCost, error) {
+func (s *StatesService) GetStatesCostData(ctx context.Context) ([]sqlc.StatesTransportCost, error) {
 	// Fetch the state costs from the database
 	data, err := s.db.Queries.ListStatesCosts(ctx)
 	if err != nil {
@@ -137,3 +132,6 @@ func (s *StatesService) GetStatesCostData(ctx context.Context) ([]sqlc.StatesCos
 
 	return data, nil
 }
+
+
+
